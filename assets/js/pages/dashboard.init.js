@@ -113,7 +113,7 @@ options = {
             }
         }
     },
-    colors: ["#34c38f"],
+    colors: ["red"],
     fill: {
         type: "gradient",
         gradient: {
@@ -129,6 +129,6 @@ options = {
         dashArray: 4
     },
     series: [67],
-    labels: ["Transactions increase"]
+    labels: ["Inactive Licenses"]
 };
 (chart = new ApexCharts(document.querySelector("#radialBar-chart"), options)).render();

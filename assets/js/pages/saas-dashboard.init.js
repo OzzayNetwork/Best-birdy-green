@@ -28,12 +28,12 @@ var options = {
   chart = new ApexCharts(document.querySelector("#line-chart"), options);
 chart.render();
 options = {
-  series: [56, 38, 26],
+  series: [56,44],
   chart: {
     type: "donut",
     height: 262
   },
-  labels: ["Series A", "Series B", "Series C"],
+  labels: ["MPESA", "CASH"],
   colors: ["#556ee6", "#34c38f", "#f46a6a"],
   legend: {
     show: !1
@@ -140,3 +140,79 @@ var radialoptions3 = {
   },
   radialchart3 = new ApexCharts(document.querySelector("#radialchart-3"), radialoptions3);
 radialchart3.render();
+
+var walletOptions = {
+  series: [25, 40, 35],
+  chart: {
+      height: 302,
+      type: "radialBar",
+      redrawOnWindowResize: true 
+  },
+  plotOptions: {
+      radialBar: {
+          offsetY: 0,
+          startAngle: 0,
+          endAngle: 270,
+          hollow: {
+              margin: 5,
+              size: "35%",
+              background: "transparent",
+              image: void 0
+          },
+          track: {
+              show: !0,
+              startAngle: void 0,
+              endAngle: void 0,
+              background: "#f2f2f2",
+              strokeWidth: "97%",
+              opacity: 1,
+              margin: 12,
+              dropShadow: {
+                  enabled: !1,
+                  top: 0,
+                  left: 0,
+                  blur: 3,
+                  opacity: .5
+              }
+          },
+          dataLabels: {
+              name: {
+                  show: !0,
+                  fontSize: "16px",
+                  fontWeight: 600,
+                  offsetY: -10
+              },
+              value: {
+                  show: !0,
+                  fontSize: "14px",
+                  offsetY: 4,
+                  formatter: function (e) {
+                      return e + "%"
+                  }
+              },
+              total: {
+                  show: !0,
+                  label: "Total",
+                  color: "#373d3f",
+                  fontSize: "16px",
+                  fontFamily: void 0,
+                  fontWeight: 600,
+                  formatter: function (e) {
+                      return e.globals.seriesTotals.reduce(function (e, t) {
+                          return e + t
+                      }, 0) + "%"
+                  }
+              }
+          }
+      }
+  },
+  stroke: {
+      lineCap: "round"
+  },
+  colors: ["#3452e1", "#f1b44c", "#50a5f1"],
+  labels: ["Cash", "MPESA", "Bank"],
+  legend: {
+      show: !1
+  }
+};
+(chart = new ApexCharts(document.querySelector("#wallet-balance-chart"), walletOptions)).render();

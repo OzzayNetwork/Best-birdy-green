@@ -1,6 +1,6 @@
 $(window).on('load', function() {
     setTimeout(function() {
-        //$("#subscribeModal").modal("show")
+        $("#subscribeModal").modal("show")
     }, 0);
 
     $('body').on('click', '.upload-the-contacts', function() {
@@ -24,6 +24,7 @@ $(window).on('load', function() {
 
     $('body').on('click', '.minimize', function() {
         $(this).parent().parent().parent().parent().siblings().toggleClass('d-none');
+        $('.email-overlay').toggleClass('p-relative')
     });
     $("body").on('change', '.contacts-table tbody input', function() {
         var theTable = $(this).parent().parent().parent().parent().parent();
@@ -588,6 +589,115 @@ $(window).on('load', function() {
       
     });
 
+    $('.select-revenue').on('changed.bs.select', function(e, clickedIndex, newValue, oldValue,value){
+        //alert(this.value);
+        if(this.value==="Rent"){
+            $('.Rent-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+        if(this.value==="Parking"){
+            $('.parking-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value==="Health"){
+            $('.health-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value==="Trade"){
+            $('.trade-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value==="Liquor"){
+            $('.liquor-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value==="Landrates"){
+            $('.landrate-rev').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value==="Others"){
+
+            $('.others-rev').removeClass("d-none").siblings().addClass('d-none')
+            
+            // $('.rev-options-cont').children('.row').each(function(index) {
+            //     $(this).addClass('d-none')
+            // });
+        }
+        
+        
+    } )
+
+    // parking options
+    $('.parking-category').on('change', function(){
+        //alert(this.value);
+        if(this.value==="seasonal"){
+            $('.seasonal-duration').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value!="seasonal"){
+            $('.seasonal-duration').addClass("d-none")
+        }
+
+        if(this.value==="Offstreet"){
+            $('.offstreet-duration').removeClass("d-none").siblings().addClass('d-none')
+        }
+
+        if(this.value!="Offstreet"){
+            $('.offstreet-duration').addClass("d-none")
+        }
+        
+    } )
+
+    //hygiene options
+    $('.hyginene-selector').on('change', function(){
+        var theSelectedvalue=$(this).val()
+        if(theSelectedvalue=="New Application"){
+            $(".food-hygiene-cont .new-hygiene").removeClass('d-none').siblings().addClass('d-none')
+        }
+
+        if(theSelectedvalue=="Renewal"){
+            $(".food-hygiene-cont .renew-hygene").removeClass('d-none').siblings().addClass('d-none')
+        }
+    })
+
+    // handler selector
+    $('.handler-selector').on('change', function(){
+        var theSelectedvalue=$(this).val()
+        //alert(theSelectedvalue)
+        if(theSelectedvalue=="New Application"){
+            $(".food-handler-cont .new-Handler").removeClass('d-none').siblings().addClass('d-none')
+        }
+
+        if(theSelectedvalue=="Renewal"){
+            $(".food-handler-cont .renew-Handler").removeClass('d-none').siblings().addClass('d-none')
+        }
+    })
+
+    //health selector
+    $('.health-selector').on('change', function(){
+        var theSelectedvalue=$(this).val()
+        if(theSelectedvalue=="Food Hygien"){
+            $(".hyginene-selector").removeClass('d-none').siblings('select').addClass('d-none')
+            $('.health-options .food-hygiene-cont').removeClass('d-none').siblings().addClass("d-none")
+        }
+
+        if(theSelectedvalue=="Food Handler"){
+            $(".handler-selector").removeClass('d-none').siblings('select').addClass('d-none')
+            $('.health-options .food-handler-cont').removeClass('d-none').siblings().addClass("d-none")
+        }
+    })
+
+    //liquor changes
+    $('.liquor-selector').on('change', function(){
+        var theSelectedVal=$(this).val()
+        if(theSelectedVal==="New Application"){
+            $('.liqur-options .new-application').removeClass('d-none').siblings().addClass('d-none')
+        }
+
+        if(theSelectedVal==="License Renewal"){
+            $('.liqur-options .renew-liquor').removeClass('d-none').siblings().addClass('d-none')
+        }
+    })
+
 
 
 
@@ -614,9 +724,13 @@ $(window).on('load', function() {
     let name = month[d.getMonth()];
 
     const mwaka = new Date();
-    let huuMwaka = mwaka.getFullYear()
+    let huuMwaka = mwaka.getFullYear();
+    var dd = String(today.getDate()).padStart(2, '0');
 
     $(".this-month").text(name + " " + huuMwaka);
+    $('.today-date').text(name+" "+dd+" "+huuMwaka)
+
+    
 
     
 
@@ -626,6 +740,129 @@ $(window).on('load', function() {
 });
 
 $(document).ready(function() {
+
+    $('.dismin-modal').on('click', function(){
+        $('#payment-modal').modal('hide')
+    })
+
+    $('.print-bill-btn').on('click', function(){
+        // alert("clicked")
+        $('.payment-next').click();
+        $('.bill-modal-footer').removeClass('d-none')
+    })
+   
+    //sending payment
+    $('body').on('click','.payment-next', function(){
+        // alert( $(".payment-panel-parent .payment-panel.payment-active-panel").index())
+
+        $('.payment-prev').prop('disabled', false)       
+        var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
+        var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
+        theCurrentIndex=theCurrentIndex+1;
+        if(theCurrentIndex!=countTheSteps){
+            $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').next().removeClass('d-none').addClass('payment-active-panel')
+        }
+        if (theCurrentIndex==countTheSteps-1) {
+            $('.payment-next').addClass('d-none');
+        }
+
+        // else{
+        //     $('.payment-next').addClass('d-none'); 
+        // }
+          
+        
+
+    })
+
+    $('body').on('click', '.btn-next', function(){
+        $(this).siblings('.btn-prev').prop('disabled', false)
+        
+        var theStepsCont=$(this).parent().parent().siblings('.steps-container')
+        var numberOfChildren=theStepsCont.children().length
+        var activeStedIndex=theStepsCont.children('.the-step.active').index()
+        var activeStep=theStepsCont.children('.the-step.active')
+        var nextStep=theStepsCont.children('.the-step.active').index()+1
+        if(nextStep!=numberOfChildren){
+            activeStep.addClass('d-none').removeClass('active').next().removeClass('d-none').addClass('active')
+        }
+
+        if(nextStep===numberOfChildren-1){
+            $(this).prop('disabled', true).addClass('d-none')
+            $(this).siblings('.btn-submit').removeClass('d-none')
+        }
+
+    })
+
+    $('body').on('click', '.btn-prev', function(){
+
+        $(this).siblings('.btn-next').prop('disabled', false).removeClass('d-none')
+        $(this).siblings('.btn-submit').prop('disabled', false).addClass('d-none')
+        
+        var theStepsCont=$(this).parent().parent().siblings('.steps-container')
+        var numberOfChildren=theStepsCont.children().length
+        var activeStedIndex=theStepsCont.children('.the-step.active').index()
+        var activeStep=theStepsCont.children('.the-step.active')
+        var nextStep=theStepsCont.children('.the-step.active').index()-1
+        if(nextStep>-1){
+            activeStep.addClass('d-none').removeClass('active').prev().removeClass('d-none').addClass('active')
+        }
+
+        if(nextStep<1){
+            $(this).prop('disabled', true)
+           
+        }
+
+    })
+
+    $('body').on('click','.payment-prev', function(){
+        $('.payment-next').removeClass('d-none');  
+        var countTheSteps = parseFloat($(".payment-panel-parent .payment-panel").length);
+        var theCurrentIndex= $(".payment-panel-parent .payment-panel.payment-active-panel").index();
+        if(theCurrentIndex!=0){
+            $('.payment-panel-parent').find('.payment-active-panel').addClass('d-none').removeClass('payment-active-panel').prev().removeClass('d-none').addClass('payment-active-panel')
+        }   
+        
+    });
+
+    function containsWordOrSentence(str, wordOrSentence) {
+        return str.includes(wordOrSentence);
+      }
+
+
+    $('body').on('change','#accessible-platforms', function(){
+
+       
+
+        var theVal=$(this).val()
+        var dashboard=containsWordOrSentence(theVal,"County Biller Dashboard")
+        var enforcementApp=containsWordOrSentence(theVal,"Collections & Enforcement App")
+        var supervisor=containsWordOrSentence(theVal,"Supervision Mobile App")
+
+        const dashboardCheckboxes = $('.dashboard-rights input[type="checkbox"]');
+        const dashboardCheckboxes2 = $('.dashboard-modules input[type="checkbox"]');
+        const enforcementCheckboxes = $('.enforcement-modules input[type="checkbox"]');
+        const supervisorCheckboxes = $('.supervisor-modules input[type="checkbox"]');
+
+        
+        
+
+        dashboardCheckboxes.prop('disabled', !dashboard);
+        dashboardCheckboxes2.prop('disabled', !dashboard);
+
+        enforcementCheckboxes.prop('disabled', !enforcementApp);
+        supervisorCheckboxes.prop('disabled', !supervisor);
+
+       
+
+        
+        
+    })
+
+
     $('.selectpicker').selectpicker();
     $('.selectpicker').selectpicker('render')
 });
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })

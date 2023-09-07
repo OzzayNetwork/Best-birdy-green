@@ -55,7 +55,7 @@ var walletOptions = {
     },
     stroke: { lineCap: "round" },
     colors: ["#556ee6", "#e83e8c", "#00a884", "#424242"],
-    labels: ["Permits", "Maintenance", "Penalties", "TAK", ],
+    labels: ["Bills Receipted", "Bills Created"],
     legend: { show: !1 }
 };
 (chart = new ApexCharts(document.querySelector("#sent-bundles"), walletOptions)).render();
@@ -63,7 +63,7 @@ var walletOptions = {
 //Bunndle usage monthly summary
 var options = {
         chart: {
-            height: 360,
+            height: 470,
             type: "bar",
             stacked: !1,
             toolbar: {
@@ -77,14 +77,14 @@ var options = {
         plotOptions: {
             bar: {
                 horizontal: !1,
-                columnWidth: "60%",
+                columnWidth: "70%",
                 // endingShape: "rounded"
             }
         },
         dataLabels: {
             enabled: !1,
         },
-        stroke: { show: !0, width: 10, colors: ["transparent"] },
+        stroke: { show: !0, width: 20, colors: ["transparent"] },
 
         yaxis: {
             labels: {
@@ -105,20 +105,13 @@ var options = {
             }
         },
         series: [{
-                name: "Permits",
+                name: "Bills Created",
                 data: [4023658, 5123456, 41458975, 67123654, 22123654, 43789654, 36789623, 52320365, 24023147, 18012586, 36036985, 48025820]
             }, {
-                name: "Maintenance",
+                name: "Receipted Bills",
                 data: [13025856, 23025632, 20032145, 8021457, 13032568, 27456987, 18235897, 22235789, 10213214, 16365478, 24456987, 22123568]
             },
-            {
-                name: "Penalties",
-                data: [1325856, 2325632, 2032145, 802147, 1303268, 27456987, 1823897, 2223789, 1013214, 1636478, 2445987, 2213568]
-            },
-            {
-                name: "TAK",
-                data: [23568, 20000, 25000, 69000, 12360, 78950, 42500, 20000, 85290, 96305, 85000, 25000]
-            }
+           
         ],
         xaxis: {
             categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -256,3 +249,74 @@ var options = {
     },
     chart = new ApexCharts(document.querySelector("#member-salary-chart"), options);
 chart.render();
+
+options = { chart: { height: 350, type: "bar", toolbar: { show: !1 } }, 
+plotOptions: { bar: { horizontal: !0 } }, dataLabels: { enabled: !1 }, 
+xaxis: {
+    labels: {
+        formatter: function(value) {
+            // return "KES " + value;
+            return numeral(value).format('0,0 a')
+        },
+        // formatter: function(val, index) {
+
+        //     return numeral(val).format('0,0')
+        // },
+
+
+
+    },
+},
+series: [{ 
+    name: "Collected Revenue",
+    data: [38203560, 43020356, 45203560, 42035675, 52035650, 52035684, 78203560, 112035600, 122035620, 132035665] 
+}],
+     colors: ["#34c38f"], grid: { borderColor: "#f1f1f1" }, xaxis: { 
+        categories: ["Nairobi", "Nakuru", "Uasin Gishu", "Baringo", "Mombasa", "Kisumu", "Meru", "Kirinyaga", "Machakos", "Kiambu"] },
+        tooltip: {
+            enabled: true,
+            enabledOnSeries: undefined,
+            shared: true,
+            followCursor: false,
+            intersect: false,
+            inverseOrder: false,
+            custom: undefined,
+            fillSeriesColor: false,
+            theme: false,
+            style: {
+                fontSize: '12px',
+                fontFamily: undefined
+
+            },
+            fillSeriesColor: false,
+            theme: "light",
+
+            marker: {
+                show: true,
+            },
+            onDatasetHover: {
+                highlightDataSeries: true,
+            },
+            // custom: function({ series, seriesIndex, dataPointIndex, w }) {
+            //     let currentTotal = 0
+            //     series.forEach((s) => {
+            //         currentTotal += s[dataPointIndex]
+            //     })
+            //     return '<div class="custom-tooltip">' +
+            //         '<span><b>Total: </b>' + currentTotal + '</span>' +
+            //         '</div>'
+            // },
+            y: {
+                formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+                    let currentTotal = 0
+                    series.forEach((s) => {
+                        currentTotal += s[dataPointIndex]
+                    })
+                    return "<span class='text-right w-100 d-flex' > KES " + numeral(value).format('0,0') + "</span> "
+
+                }
+            },
+            
+        }
+     };
+(chart = new ApexCharts(document.querySelector("#bar_chart"), options)).render();
